@@ -1,2 +1,3 @@
 # javasript
-javascript repo Version 1.0.0
+javascript repo Version 1.1.1
+Jquery tutorial
