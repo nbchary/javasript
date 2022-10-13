@@ -1,2 +1,2 @@
 # javasript
-javascript repo Version 1.0.1
+javascript repo Version 1.1.1
