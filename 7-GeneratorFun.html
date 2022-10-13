@@ -1,0 +1,30 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <script>
+        // Method -1
+        function* myGen1() {
+            var n1 = yield 'a';
+            var n2 = yield 'b';
+            var n3 = yield 'c';
+            return (n1+n2+n3);
+        }
+        var ltr = myGen1();
+        console.log(ltr.next());
+        console.log(ltr.next(10));
+        console.log(ltr.next(20));
+        console.log(ltr.next(30));
+
+       
+
+    </script>
+</body>
+</html>

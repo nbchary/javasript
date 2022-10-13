@@ -1,0 +1,61 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <h3>Promises - Resolving Sequentially</h3>
+
+    <h4>Countries - Name contains 'INDIA'</h4>
+    <div id="countries-ind"></div>
+    <p></p>
+
+    <h4>Countries - Name contains 'Hindi'</h4>
+    <div id="countries-hin"></div>
+    <p></p>
+
+    <h4>Countries - Name contains 'INR'</h4>
+    <div id="countries-inr"></div>
+    <p></p>
+   
+    <script>
+
+        // Method -II
+        function myAjaxUtil(url) {
+            fetch(url)
+                .then(response => response.json())
+                .then((data) => gen.next(data));
+        }
+
+        function* myGen() {
+            var countries_IND = yield myAjaxUtil("https://restcountries.com/v2/name/india?fullText=true");
+            $.each(countries_IND, function (index, obj) {
+                $("#countries-ind").append(obj.name).append("<br/>");
+            });
+
+            var countries_HIN = yield myAjaxUtil("https://restcountries.com/v2/lang/hi");
+            $.each(countries_HIN, function (index, obj) {
+                $("#countries-hin").append(obj.name).append("<br/>");
+            });
+
+            var countries_INR = yield myAjaxUtil("https://restcountries.com/v2/currency/inr");
+            $.each(countries_INR, function (index, obj) {
+                $("#countries-inr").append(obj.name).append("<br/>");
+            });
+        }
+
+        var gen = myGen()
+        gen.next();
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- https://restcountries.com/v2/name/india?fullText=true -->
+
+    <script>
+        // Method I
+        $.ajax("https://restcountries.com/v2/name/india?fullText=true")
+            .done(function (response) {
+                console.log(response);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown + ". Please try again.");
+            })
+            .always(function () {
+                console.log("AJAX completed");
+            });
+
+
+        // Method II
+        var promiseObj = $.ajax("https://restcountries.com/v2/name/india?fullText=true");
+
+        // if (condition) {
+        //     promiseObj.done(function(response){
+        //         console.log(response);
+        //     });
+        // } else {
+        //     promiseObj.done(function(){
+        //         console.log("2nd Done Callback");
+        //     });
+        // }
+
+        promiseObj.done(function (response) {
+            console.log(response);
+        });
+
+        promiseObj.fail(function (jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown + ". Please try again.");
+        });
+
+        promiseObj.always(function () {
+            console.log("AJAX completed");
+        });
+
+    </script>
+</body>
+
+</html>

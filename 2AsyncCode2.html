@@ -1,0 +1,43 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>   
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" 
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+   
+   
+    <input type="text" name="countryName" id="countryName" />
+    <br>
+    Capital name : <span id="capitalSpan"></span>           
+    <br>
+    <button type="button" id="btn-load-Data">load Data 2</button>
+        
+    <script>     
+        // Method - II - using Jquery
+        $(document).ready(function () {
+            $("#btn-load-Data").click(function () {                
+                var countryName = $("#countryName").val();
+                console.log(countryName);
+                var urlAddress = "https://restcountries.com/v2/name/" + countryName + "?fullText=true";
+                $.ajax({
+                    url: urlAddress,
+                    success: function (response) {
+                        var capital = response[0].capital;
+                        $("#capitalSpan").html(capital);
+                    }
+                });
+            })
+        });
+
+    </script>
+</body>
+
+</html>

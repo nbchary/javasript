@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>JS Bin</title>
+
+</head>
+
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<body>
+
+    <h3>async/await functions</h3>
+    <h5>Countries - Name contains India : </h5>
+    <div id="countries_ind"></div>    <p></p>
+
+    <h5>Countries - Language is Hindi :</h5>
+    <div id="countries_hin"></div>
+    <p></p>
+
+    <h5>Countries - Currency is INR : </h5>
+    <div id="countries_inr"></div>
+    <p></p>
+
+    <select id="inrId" class="form-select">
+        <option value="" selected disabled>-- Select --</option>
+    </select>
+    <button id="btn" class="btn btn-primary">Click here</button>
+
+</body>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btn").click(function () {
+            loadData();
+        });
+
+    });
+
+    async function loadData() {
+        try {
+            var countries_IND = await $.ajax("https://restcountries.com/v2/name/india?fullText=true");
+            $.each(countries_IND, function (index, obj) {
+                $('#countries_ind').css("color", "red").append(obj.name).append('<br/>');
+            });
+
+            var countries_HIN = await $.ajax("https://restcountries.com/v2/lang/hin");
+            $.each(countries_HIN, function (index, obj) {
+                $('#countries_hin').css("color", "red").append(obj.name).append('<br/>');
+            });
+
+            $("#inrId").empty();
+            items = "<option value=''><-- Select --></option>";
+
+            var countries_INR = await $.ajax("https://restcountries.com/v2/currency/inr");
+            $.each(countries_INR, function (index, obj) {
+                $('#countries_inr').css("color", "red").append(obj.name).append('<br/>');
+                items += "<option value='" + obj.name + "'>" + obj.name + "</option>";
+            });
+            $('#inrId').html(items);
+
+        } catch (error) {
+            console.log("Error. please try again..");
+        }
+    }
+
+
+
+
+</script>
+
+</html>

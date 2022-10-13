@@ -1,0 +1,133 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" 
+    crossorigin="anonymous"></script>
+</head>
+<body>
+    <br>
+    <p>Country</p>
+    <select id="country">
+        <option value="">--Select--</option>
+        <option value="501501">501501</option>
+        <option value="501502">501502</option>
+        <option value="501506">501506</option>
+        <option value="501508">501508</option>
+        <option value="500070">500070</option>
+
+        <option value="United Status">United Status</option>
+    </select>
+  
+    <p>States</p>
+    <select id="states">
+        <option value="">--Select--</option>
+    </select>
+    <span id="ajax-error"></span>
+    <span id="ajax-loading"></span>
+   
+    <p>gender</p>
+    <select id="gender">
+        <option value="">--Select--</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+   
+    <p>Mobile no</p>
+    <input type="text" id="moble"/>
+
+    <p>PIN Code</p>
+    <input type="text" id="PINCode"/>
+    <button type="button" id="pincode">Search</button>
+    <div id="address"></div>
+    
+
+    <script>
+        $(document).ready(function() {
+            $("#country").change(function() {
+                // var headers = new Headers();
+                // headers.append("X-CSCAPI-KEY", "API_KEY");
+
+                // var requestOptions = {
+                //     method: 'GET',
+                //     headers: headers,
+                //     redirect: 'follow'
+                // };
+
+                // fetch("https://api.countrystatecity.in/v1/countries", requestOptions)
+                //     .then(response => response.text())
+                //     .then(result => console.log(result))
+                //     .catch(error => console.log('error', error));
+
+                
+                var sel_country = $(this).val();
+                
+                var urlAddress = "https://api.postalpincode.in/pincode/" + sel_country;
+
+                $.ajax({
+                    //async: false,
+                    url: urlAddress,
+                    beforeSend: function() {
+                        $("#states").find('option').not(':first').remove();
+                        $("#ajax-loading").html("loading...");
+                    },
+                    success: function(obj, textStatus,jqXHR) {
+                        var state_dropdown = $("#states");
+
+                        $.each(obj, function(key, value) {                            
+                            $.each(value.PostOffice, function(k,v) {                                
+                                state_dropdown.append($("<option/>").val(v.Name).text(v.Name));
+                            });
+                        });
+
+                        // $.each(jsonData2, function(index, item) {
+                        //     //state_dropdown.append($("<option/>").val(item.Name).text(item.Name));
+
+                        //     console.log(item.PostOffice[indexNo].Name);
+                        //     indexNo++;
+                        // });
+
+
+                    },
+                    error : function(jqXHR, textStatus, errorThrown){
+                        $("#ajax-error").html(errorThrown + " pleas try again")
+                    },
+                    complete: function(sqXHR, textStatus){
+                        $("#ajax-loading").html('');
+                    }
+                });
+            });
+
+
+
+            $("#pincode").click(function() {
+
+                var pincode = $("#PINCode").val();                
+                var urlAddress = "https://api.postalpincode.in/pincode/" + pincode;
+                $.ajax({
+                    async: false,
+                    url: urlAddress,
+                    beforeSend: function() {                       
+                        $("#address").html("");
+                    },
+                    success: function(obj, textStatus,jqXHR) {                       
+                        $.each(obj, function(key, value) {                            
+                            $.each(value.PostOffice, function(k,v) {                                                               
+                                $("#address").append(v.Name).append("<br/>");
+                            });
+                        });
+                    },
+                    error : function(jqXHR, textStatus, errorThrown){
+                        $("#ajax-error").html(errorThrown + " pleas try again")
+                    },
+                    complete: function(sqXHR, textStatus){
+                        $("#ajax-loading").html('');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
